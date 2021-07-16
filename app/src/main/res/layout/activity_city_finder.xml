@@ -25,6 +25,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:hint="Enter City Name"
+        android:background="@drawable/edittextdesign"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:textSize="20sp"
