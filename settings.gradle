@@ -1,0 +1,2 @@
+rootProject.name = "RadarX"
+include ':app'
