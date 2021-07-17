@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     final String APP_ID = "314ed512624ccd0aa0e9ecdeb8cd7812"; /*Weather Condition API*/
-    final String WEATHER_URL = "https://home.openweathermap.org/data/2.5/weather";
+    final String WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather";
     final long MIN_TIME = 5000;
     final float MIN_DISTANCE = 1000;
     final int REQUEST_CODE = 101;
@@ -114,6 +114,8 @@ public class MainActivity extends AppCompatActivity {
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
             return;
         }
         mLocationManager.requestLocationUpdates(Location_Provider, MIN_TIME, MIN_DISTANCE, mLocationListner);
@@ -144,6 +146,9 @@ public class MainActivity extends AppCompatActivity {
 
                 Toast.makeText(MainActivity.this, "Data Get Success", Toast.LENGTH_SHORT).show();
 
+                weatherData weatherD = weatherData.fromJson(response);
+                updateUI(weatherD);
+
                 //super.onSuccess(statusCode, headers, response);
             }
 
@@ -154,4 +159,19 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void updateUI(weatherData weather){
+        Temparature.setText(weather.getmTemperature());
+        NameofCity.setText(weather.getMcity());
+        weatherState.setText(weather.getMweatherType());
+        int resourceID = getResources().getIdentifier(weather.getMicon(), "drawable", getPackageName());
+        mweatherIcon.setImageResource(resourceID);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mLocationManager != null){
+            mLocationManager.removeUpdates(mLocationListner);
+        }
+    }
 }
