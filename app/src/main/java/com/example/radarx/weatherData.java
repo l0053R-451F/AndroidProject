@@ -40,15 +40,15 @@ public class weatherData {
         {
             return "thunderstrom1";
         }
-        else if(condition>=300 && condition<=500)
+        else if(condition>=301 && condition<=500)
         {
             return "lightrain";
         }
-        else if(condition>=500 && condition<=600)
+        else if(condition>=501 && condition<=600)
         {
             return "shower";
         }
-        else  if(condition>=600 && condition<=700)
+        else  if(condition>=601 && condition<=700)
         {
             return "snow2";
         }
@@ -86,24 +86,28 @@ public class weatherData {
             return "thunderstrom2";
         }
 
-        return "dunno";
+        return "NoData";
 
 
     }
 
-    public String getmTemperature() {
+    public String getmTemperature()
+    {
         return mTemperature+"°C";
     }
 
-    public String getMicon() {
+    public String getMicon()
+    {
         return micon;
     }
 
-    public String getMcity() {
+    public String getMcity()
+    {
         return mcity;
     }
 
-    public String getmWeatherType() {
+    public String getmWeatherType()
+    {
         return mWeatherType;
     }
 }

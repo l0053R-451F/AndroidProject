@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity {
     final String APP_ID = "dab3af44de7d24ae7ff86549334e45bd";
     final String WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather";
 
-    final long MIN_TIME = 5000;
-    final float MIN_DISTANCE = 1000;
+    final long MIN_TIME = 5000; //5000 means 5 sec.
+    final float MIN_DISTANCE = 1000; //1000 mean 1 mitre
     final int REQUEST_CODE = 101;
 
 
@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
         NameofCity = findViewById(R.id.cityName);
 
 
+        //this listener go you to main activity to cityFinder activity//
+
         mCityFinder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
        super.onResume();
        getWeatherForCurrentLocation();
     }*/
+
+    //when user load this app this method autometically run
 
     @Override
     protected void onResume() {
@@ -109,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void getWeatherForCurrentLocation() {
 
-        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);  // It provide the object off our current Location
         mLocationListner = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
@@ -117,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                 String Latitude = String.valueOf(location.getLatitude());
                 String Longitude = String.valueOf(location.getLongitude());
 
-                RequestParams params =new RequestParams();
+                RequestParams params =new RequestParams();  //RequestParam come from dependency in build.gradle which is loopj
                 params.put("lat" ,Latitude);
                 params.put("lon",Longitude);
                 params.put("appid",APP_ID);
@@ -141,10 +145,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onProviderDisabled(String provider) {
                 //not able to get location
+                //Here user allow the location but we can't fetch the location
             }
         };
 
 
+        //this if condition nothing but check the correctness of the request Location Update class
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -161,16 +167,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    //this method check user allow the permission or not
+    //Code start here.
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
 
-        if(requestCode==REQUEST_CODE)
+        if(requestCode == REQUEST_CODE)
         {
             if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED)
             {
-                Toast.makeText(MainActivity.this,"Locationget Succesffully",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,"Location Get Successfully",Toast.LENGTH_SHORT).show();
                 getWeatherForCurrentLocation();
             }
             else
@@ -184,10 +192,12 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    /*API Handle Here*/
+
     private  void letsdoSomeNetworking(RequestParams params)
     {
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(WEATHER_URL,params,new JsonHttpResponseHandler()
+        client.get(WEATHER_URL,params,new JsonHttpResponseHandler() //Here is the hit of API
         {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
